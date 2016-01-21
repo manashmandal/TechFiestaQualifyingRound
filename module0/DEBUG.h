@@ -7,6 +7,8 @@ void check_left_right(void){
   Serial.print("Right: ");
   Serial.println(analogRead(rightIr));
   delay(500);
+  debugIr();
+  delay(500);
 }
 
 #endif

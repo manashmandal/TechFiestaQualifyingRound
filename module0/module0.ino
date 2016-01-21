@@ -8,9 +8,9 @@
 
 void left_and_right(void){
   updateIr();
-  if (left_reading == 1 || right_reading == 1){
+  if (left_reading == 1){
     stop();
-    blink(10);
+    blink(3);
   } 
 }
 
@@ -24,11 +24,14 @@ void _stop(){
 
 void loop()
 {
-  iReadArray();
-  updateIr();
-  PID();
-  _stop();
+//  iReadArray();
+//  updateIr();
+//  PID();
 //  left_and_right();
-//  debugIr();
+//  _stop();
+//  left_and_right();
+  debugIr();
+  debug_get_turn_weight();
+//debugIr();
 }
 

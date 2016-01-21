@@ -7,13 +7,8 @@
 #define REDUCE 70
 #define led 13
 
+
 int iMotorSpeed = 110;
-
-float kp = .5;
-float kd = .667;
-float ki = 0;
-
-
 
 int reduced_speed = iMotorSpeed - REDUCE;
 
@@ -38,6 +33,51 @@ bool tcrt_inverse_logic = false;
 
 int left_reading = 0;
 int right_reading = 0;
+
+
+int iReadArray(void);
+void updateIr(void);
+
+
+float kp = .5;
+float kd = 255;
+float ki = 0;
+
+enum TURN  {TURN_LEFT, TURN_RIGHT};
+
+
+const double left_multiplier = 0.001;
+const double right_multiplier = 1000;
+
+const double turn_weights[] = {10, 20, 30, 40, 1000, 2000, 3000, 4000};
+
+double total_turn_weight = 0;
+
+double get_turn_weight(void){
+  total_turn_weight = 0;
+  updateIr();
+  iReadArray();
+  for (int i = 0; i < 8; i++){
+    total_turn_weight += turn_weights[i] * reading[i];
+  }
+
+  if (left_reading == 1 && right_reading == 0) return (left_reading * total_turn_weight * left_multiplier);
+  else if (right_reading == 1 && left_reading == 0) return (right_reading * total_turn_weight * right_multiplier);
+  else return (0 * total_turn_weight);
+}
+
+
+void debug_get_turn_weight(void){
+  Serial.println("Turn weight: " + String(get_turn_weight()));
+  delay(400);
+}
+
+bool check_turn(void){
+   
+}
+
+
+
 
 int left_sensor(void){
   if (analogRead(leftIr) > tcrt_threshold){
