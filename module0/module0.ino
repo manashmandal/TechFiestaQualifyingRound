@@ -22,16 +22,24 @@ void _stop(){
   }
 }
 
+void turn_left(){
+  while(numberof_active_sensors() != 0){
+    motor->go(80, 80, FORWARD);
+  }
+  while(true) stop();
+}
+
+void turn_right(){
+  while(numberof_active_sensors() != 0){
+    motor->go(80, 80, FORWARD);
+  }
+  while(true)  stop();
+}
+
 void loop()
 {
-//  iReadArray();
-//  updateIr();
-//  PID();
-//  left_and_right();
-//  _stop();
-//  left_and_right();
-  debugIr();
-  debug_get_turn_weight();
-//debugIr();
+  if (check_turn() == TURN_LEFT) { Serial.println("TURN LEFT"); turn_left(); }
+  else if (check_turn() == TURN_RIGHT) { Serial.println("TURN RIGHT"); turn_right(); }
+  else if (check_turn() == NO_TURN) {  Serial.println("PID"); PID(); }
 }
 

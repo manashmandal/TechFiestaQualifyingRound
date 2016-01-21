@@ -43,7 +43,7 @@ float kp = .5;
 float kd = 255;
 float ki = 0;
 
-enum TURN  {TURN_LEFT, TURN_RIGHT};
+enum TURN  {TURN_LEFT, TURN_RIGHT, NO_TURN};
 
 
 const double left_multiplier = 0.001;
@@ -67,13 +67,21 @@ double get_turn_weight(void){
 }
 
 
+unsigned int numberof_active_sensors(void){
+  iReadArray();
+  return total_active_sensor;
+}
+
 void debug_get_turn_weight(void){
   Serial.println("Turn weight: " + String(get_turn_weight()));
   delay(400);
 }
 
-bool check_turn(void){
-   
+int check_turn(void){
+   double value = get_turn_weight();
+   if (value > 10000.0 ) return TURN_RIGHT;
+   else if (value > 0 && value < 20.0) return TURN_LEFT;
+   else return NO_TURN;
 }
 
 
