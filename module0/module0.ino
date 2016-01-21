@@ -23,18 +23,50 @@ void _stop(){
 }
 
 void turn_left(){
+  bool done = false;
   while(numberof_active_sensors() != 0){
     motor->go(80, 80, FORWARD);
+    done = true;
   }
-  while(true) stop();
+
+  if (done){
+    do{
+      motor->go(80, 80, ANTICLOCKWISE);
+      delayMicroseconds(1);   
+    } while (numberof_active_sensors() < 1);
+  }
+
+  stop();
+  delay(1000);
 }
 
+
 void turn_right(){
+  bool done = false;
   while(numberof_active_sensors() != 0){
     motor->go(80, 80, FORWARD);
+    done = true;
   }
-  while(true)  stop();
+
+  if (done){
+    do{
+      motor->go(80, 80, CLOCKWISE);
+      delayMicroseconds(1);   
+    } while (numberof_active_sensors() < 1);
+  }
+
+  stop();
+  delay(1000);
 }
+
+
+
+//void turn_right(){
+//  while(numberof_active_sensors() != 0){
+//    motor->go(80, 80, FORWARD);
+//  }
+//  while(true)  stop();
+//}
 
 void loop()
 {
